@@ -24,16 +24,16 @@ const allElements = combineLatest([
 ]);
 
 allElements.subscribe({
-  next: (value: Array<String>) =>
-    showResult(Number(value[0]), Number(value[1]), Number(value[2])),
+  next: (value: Array<string>) =>
+    showResult(parseInt(value[0]), parseInt(value[1]), parseInt(value[2])),
   error: (error: Error) => showError(error)
 });
 
-const showResult = (amount: Number, interest: Number, length: Number): void => {
+const showResult = (amount: number, interest: number, length: number): void => {
   const result = document.getElementById('result');
-  if (!checkValue(amount)) {
+  if (valueIsNotGreaterThanZero(amount)) {
     result.textContent = `Error: incorrect value for Loan Amount`;
-  } else if (!checkValue(interest)) {
+  } else if (valueIsNotGreaterThanZero(interest)) {
     result.textContent = `Error: incorrect value for Interest Rate`;
   } else {
     const value = calculateMortgage(amount, interest, length);
@@ -46,10 +46,6 @@ const showError = (error: Error): void => {
   result.textContent = `Error: ${error.message}`;
 };
 
-const checkValue = (value: Number): boolean => {
-  if (value <= 0) {
-    return false;
-  } else {
-    return true;
-  }
+const valueIsNotGreaterThanZero = (value: number): boolean => {
+  return value <= 0 ? true : false;
 };
